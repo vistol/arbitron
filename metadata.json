@@ -1,0 +1,5 @@
+{
+  "name": "ArbBot.ai - Funding Rate Arbitrage",
+  "description": "An automated dashboard for Funding Rate Arbitrage (Spot + Futures Hedge) powered by Gemini AI for market analysis and risk assessment.",
+  "requestFramePermissions": []
+}
