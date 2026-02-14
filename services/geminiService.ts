@@ -3,13 +3,20 @@ import { MarketPair, AIAnalysis } from '../types';
 
 const getClient = () => {
   const apiKey = process.env.API_KEY;
-  if (!apiKey) throw new Error("API Key is missing");
+  // If no API key is set (e.g. in public demo), we shouldn't crash immediately,
+  // but let the specific call fail gracefully.
+  if (!apiKey) return null;
   return new GoogleGenAI({ apiKey });
 };
 
 export const analyzeMarketConditions = async (pairs: MarketPair[]): Promise<AIAnalysis> => {
   try {
     const client = getClient();
+    if (!client) {
+      console.warn("API Key missing. Running in demo mode without AI.");
+      throw new Error("API Key is missing in environment variables.");
+    }
+
     const topPairs = pairs.slice(0, 5); // Analyze top 5 opportunities
 
     const prompt = `
@@ -50,8 +57,8 @@ export const analyzeMarketConditions = async (pairs: MarketPair[]): Promise<AIAn
     return {
       riskScore: 50,
       sentiment: 'Neutral',
-      recommendation: 'Monitor market manually.',
-      reasoning: 'AI analysis failed due to connectivity or API issues. Proceed with standard safeguards.'
+      recommendation: 'AI Analysis Unavailable',
+      reasoning: 'The AI service is currently unavailable or the API Key is missing. Please rely on manual analysis of the funding rates shown below.'
     };
   }
 };

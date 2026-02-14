@@ -7,12 +7,14 @@ export default defineConfig(({ mode }) => {
   
   return {
     plugins: [react()],
-    base: './', 
+    base: './', // CRITICAL: Allows app to run in GitHub Pages subdirectory
     define: {
-      'process.env.API_KEY': JSON.stringify(env.API_KEY)
+      // Prevents crash if API_KEY is undefined by defaulting to empty string
+      'process.env.API_KEY': JSON.stringify(env.API_KEY || '')
     },
     build: {
       outDir: 'dist',
+      assetsDir: 'assets',
     }
   };
 });
