@@ -7,8 +7,8 @@ export default defineConfig(({ mode }) => {
   
   return {
     plugins: [react()],
-    // CRITICAL: Base must be './' for GitHub Pages to find assets in subdirectories
-    base: './', 
+    // Base must be relative './' for GitHub Pages to work in subdirectories
+    base: './',
     define: {
       'process.env.API_KEY': JSON.stringify(env.API_KEY || '')
     },
@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist',
       assetsDir: 'assets',
       emptyOutDir: true,
+      sourcemap: false
     }
   };
 });
